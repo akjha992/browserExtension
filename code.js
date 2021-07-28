@@ -44,7 +44,11 @@ const hasKeyword = () =>{
 };
 
 const addButtons = ()=>{
-    document.querySelector(selectors.exitButton).remove();
+    const exitButton =  document.querySelector(selectors.exitButton);
+    if(exitButton){
+       exitButton.remove();    
+    }
+    
     const newButton = '<div data-test-id="question-skip-button" id="superSkipButton" class="sc-likbZx KLpLW"><button class="sc-jTzLTM gKItAZ sc-jqCOkK gRVFSE sc-bbmXgH fGVldU" type="button"><span class="sc-gZMcBi hyTroz">Super Skip</span><span aria-live="polite" data-test="button-loading-status" hidden="" role="status" class="sc-iwsKbI izSUON">Skip done loading</span></button></div>'
     document.querySelector(selectors.buttonContainer).innerHTML+=newButton;
     document.querySelector("#superSkipButton").onclick = fastSkip;
