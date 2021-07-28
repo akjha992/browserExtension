@@ -43,8 +43,9 @@ const hasKeyword = () =>{
 };
 
 const addButtons = ()=>{
-    document.querySelector(selectors.exitButton).class = "sc-jTzLTM gKItAZ sc-jqCOkK gRVFSE sc-bbmXgH fGVldU";
+    document.querySelector(selectors.exitButton).className = "sc-jTzLTM gKItAZ sc-jqCOkK gRVFSE sc-bbmXgH fGVldU";
     document.querySelector(selectors.exitButton).innerText = "SuperSkip";
+    document.querySelector(selectors.exitButton).onclick = fastSkip;
 }
 
 const checkQuestionExist = setInterval(function() {
