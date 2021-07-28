@@ -70,7 +70,9 @@ if (navigator.vibrate) {
 	// vibration API supported
 navigator.vibrate(200);
 }
-          
+            var audio = new Audio('https://www.fesliyanstudios.com/soundeffects-download.php?id=4383');
+
+                audio.play();
           alert("found keyword - " + key);
       }else{
           skipAndStart();
