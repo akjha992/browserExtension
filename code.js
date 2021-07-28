@@ -1,3 +1,32 @@
-var elems = document.querySelectorAll("*");
-for (var i = 0 ; i < elems.length ; i++)
-	elems[i].style.fontFamily = "monospace";
+const SUPER_SKIP_MAP = [
+    "c++",
+    " c ",
+    "cpp",
+    "javascript",
+    "python",
+    "java",
+    "c program",
+    ".py",
+    "scanner",
+    "cout",
+    "scanf",
+    "iostream",
+    "#include",
+    "bst",
+    "class"
+];
+
+const selectors = {
+  skipButton: '#root > main > footer > div > div > div:nth-child(2) > button',
+  answerButton: '',
+  I_Dont_Have_Subject_Knowledge_Reason: '#root > main > footer > div > div > div.sc-hMqMXs.enPIsE.sc-kIPQKe.cBjqrw > div > div > div.sc-RefOD.QZIDq > div > label:nth-child(4)',
+  skipSubmitButton: '#root > main > footer > div > div > div.sc-hMqMXs.enPIsE.sc-kIPQKe.cBjqrw > div > div > div.sc-iQKALj.hQXEod > button'
+};
+
+const fastSkip = ()=>{
+  document.querySelector(skipButton).click();
+  document.querySelector(I_Dont_Have_Subject_Knowledge_Reason).click();
+  document.querySelector(skipSubmitButton).click();
+};
+
+fastSkip();
