@@ -42,3 +42,4 @@ const checkQuestionExist = setInterval(function() {
 
 //alert(alert("Ready"));
 checkQuestionExist();
+alert(alert("Ready"));
