@@ -24,9 +24,9 @@ const selectors = {
 };
 
 const fastSkip = ()=>{
-  document.querySelector(skipButton).click();
-  document.querySelector(I_Dont_Have_Subject_Knowledge_Reason).click();
-  document.querySelector(skipSubmitButton).click();
+  document.querySelector(selectors.skipButton).click();
+  document.querySelector(selectors.I_Dont_Have_Subject_Knowledge_Reason).click();
+  document.querySelector(selectors.skipSubmitButton).click();
 };
 
 fastSkip();
