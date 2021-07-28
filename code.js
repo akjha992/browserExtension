@@ -50,7 +50,7 @@ const addButtons = ()=>{
     }
     const superSkipButton = document.querySelector("#superSkipButton");
     if(!superSkipButton){
-        const newButton = '<button style="height:50px;width:200px;text-align:center;position:relative;bottom:-300px;right:-20px;" id="superSkipButton" type="button">Fast Skip</button>'
+        const newButton = '<button style="height:50px;width:200px;text-align:center;position:relative;bottom:-500px;right:-20px;" id="superSkipButton" type="button">Fast Skip</button>'
         document.querySelector(selectors.buttonContainer).innerHTML+=newButton;
         document.querySelector("#superSkipButton").addEventListener("click", skipAndStart);
     }
@@ -64,7 +64,7 @@ const repeatCheckQuestionLoaded = ()=>{
       const key = hasKeyword();
       if(key){
           addButtons();
-          alert("found keywordS " + key);
+          alert("found keyword " + key);
       }else{
           skipAndStart();
       }
