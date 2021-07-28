@@ -20,7 +20,8 @@ const selectors = {
   skipButton: '#root > main > footer > div > div > div:nth-child(2) > button',
   answerButton: '',
   I_Dont_Have_Subject_Knowledge_Reason: '#root > main > footer > div > div > div.sc-hMqMXs.enPIsE.sc-kIPQKe.cBjqrw > div > div > div.sc-RefOD.QZIDq > div > label:nth-child(5)',
-  skipSubmitButton: '#root > main > footer > div > div > div.sc-hMqMXs.enPIsE.sc-kIPQKe.cBjqrw > div > div > div.sc-iQKALj.hQXEod > button'
+  skipSubmitButton: '#root > main > footer > div > div > div.sc-hMqMXs.enPIsE.sc-kIPQKe.cBjqrw > div > div > div.sc-iQKALj.hQXEod > button',
+  questionComponent: '#question-comp'
 };
 
 const fastSkip = ()=>{
@@ -29,4 +30,11 @@ const fastSkip = ()=>{
   document.querySelector(selectors.skipSubmitButton).click();
 };
 
-fastSkip();
+
+const checkQuestionExist = setInterval(function() {
+   if (document.querySelector(selectors.questionComponent).length) {
+      alert(alert("Ready");
+      clearInterval(checkExist);
+   }
+}, 1000)
+//fastSkip();
