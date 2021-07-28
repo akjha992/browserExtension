@@ -30,13 +30,27 @@ const fastSkip = ()=>{
   document.querySelector(selectors.skipSubmitButton).click();
 };
 
+const hasKeyword = () =>{
+    const questionText = document.querySelector(selectors.questionComponent).innerText;
+    for (i = 0; i < SUPER_SKIP_MAP.length; i++) {
+            const keyword =  SUPER_SKIP_MAP[i];
+            if(questionText.toLowerCase().indexOf(keyword.toLowerCase())!==-1){
+                return keyword;
+            }
+    }
+    return null;
+};
 
 const checkQuestionExist = setInterval(function() {
    if (document.querySelector(selectors.questionComponent)) {
-      alert(alert("Ready"));
-      clearInterval(checkQuestionExist);
+      if(hasKeyword()){
+          alert("found keyword");
+          clearInterval(checkQuestionExist);
+      }else{
+          fastSkip();
+      }
    }
-}, 1000)
+}, 3000)
 
 //fastSkip();
 
