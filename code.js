@@ -23,7 +23,7 @@ const selectors = {
   skipSubmitButton: '#root > main > footer > div > div > div.sc-hMqMXs.enPIsE.sc-kIPQKe.cBjqrw > div > div > div.sc-iQKALj.hQXEod > button',
   questionComponent: '#question-comp',
   exitButton: '#root > main > footer > div > div > div.sc-eKZiaR.kLEhPS',
-  buttonContainer: '#root > main > footer > div > div'
+  buttonContainer: '#root > header > div'
 };
 
 const fastSkip = ()=>{
@@ -48,27 +48,34 @@ const addButtons = ()=>{
     if(exitButton){
        exitButton.remove();    
     }
-    
-    const newButton = '<div data-test-id="question-skip-button" id="superSkipButton" class="sc-likbZx KLpLW"><button class="sc-jTzLTM gKItAZ sc-jqCOkK gRVFSE sc-bbmXgH fGVldU" type="button"><span class="sc-gZMcBi hyTroz">Super Skip</span><span aria-live="polite" data-test="button-loading-status" hidden="" role="status" class="sc-iwsKbI izSUON">Skip done loading</span></button></div>'
-    document.querySelector(selectors.buttonContainer).innerHTML+=newButton;
-    document.querySelector("#superSkipButton").onclick = fastSkip;
+    const superSkipButton = document.querySelector("#superSkipButton");
+    if(!superSkipButton){
+        const newButton = '<button style="height:50px;width:200px;text-align:center;position:relative;bottom:-670px;right:-20px;" id="superSkipButton" type="button">Fast Skip</button>'
+        document.querySelector(selectors.buttonContainer).innerHTML+=newButton;
+        document.querySelector("#superSkipButton").addEventListener("click", skipAndStart);
+    }
 }
 
-const checkQuestionExist = setInterval(function() {
+
+let checkQuestionExist;
+const repeatCheckQuestionLoaded = ()=>{
    if (document.querySelector(selectors.questionComponent)) {
-      addButtons();
+      clearInterval(checkQuestionExist);
       const key = hasKeyword();
       if(key){
+          addButtons();
           alert("found keyword " + key);
-          clearInterval(checkQuestionExist);
       }else{
-          fastSkip();
+          skipAndStart();
       }
    }
-}, 3000)
+};
+const skipAndStart = ()=>{
+    fastSkip();
+    start();
+}
+const start = ()=>{
+    checkQuestionExist = setInterval(repeatCheckQuestionLoaded, 2000);
+}
 
-//fastSkip();
-
-//alert(alert("Ready"));
-//checkQuestionExist();
-//alert(alert("Ready"));
+start();
