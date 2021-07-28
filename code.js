@@ -50,7 +50,7 @@ const addButtons = ()=>{
     }
     const superSkipButton = document.querySelector("#superSkipButton");
     if(!superSkipButton){
-        const newButton = '<button style="height:50px;width: 100%;text-align:center;position: ABSOLUTE;bottom:-670px;right:0" id="superSkipButton" type="button">Fast Skip</button>'
+        const newButton = '<button style="height:50px;width: 100%;text-align:center;position: ABSOLUTE;bottom:-650px;right:0" id="superSkipButton" type="button">Fast Skip</button>'
         document.querySelector(selectors.buttonContainer).innerHTML+=newButton;
         document.querySelector("#superSkipButton").addEventListener("click", skipAndStart);
     }
