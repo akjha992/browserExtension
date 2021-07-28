@@ -64,7 +64,7 @@ const repeatCheckQuestionLoaded = ()=>{
       const key = hasKeyword();
       if(key){
           addButtons();
-          alert("found keyword: " + key);
+          alert("found keyword - " + key);
       }else{
           skipAndStart();
       }
