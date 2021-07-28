@@ -41,3 +41,4 @@ const checkQuestionExist = setInterval(function() {
 //fastSkip();
 
 //alert(alert("Ready"));
+checkQuestionExist();
