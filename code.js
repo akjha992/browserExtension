@@ -22,7 +22,8 @@ const selectors = {
   I_Dont_Have_Subject_Knowledge_Reason: '#root > main > footer > div > div > div.sc-hMqMXs.enPIsE.sc-kIPQKe.cBjqrw > div > div > div.sc-RefOD.QZIDq > div > label:nth-child(5)',
   skipSubmitButton: '#root > main > footer > div > div > div.sc-hMqMXs.enPIsE.sc-kIPQKe.cBjqrw > div > div > div.sc-iQKALj.hQXEod > button',
   questionComponent: '#question-comp',
-  exitButton: '#root > main > footer > div > div > div.sc-eKZiaR.kLEhPS > button'
+  exitButton: '#root > main > footer > div > div > div.sc-eKZiaR.kLEhPS',
+  buttonContainer: '#root > main > footer > div > div'
 };
 
 const fastSkip = ()=>{
@@ -43,9 +44,10 @@ const hasKeyword = () =>{
 };
 
 const addButtons = ()=>{
-    document.querySelector(selectors.exitButton).className = "sc-jTzLTM gKItAZ sc-jqCOkK gRVFSE sc-bbmXgH fGVldU";
-    document.querySelector(selectors.exitButton).innerText = "SuperSkip";
-    document.querySelector(selectors.exitButton).onclick = fastSkip;
+    document.querySelector(selectors.exitButton).remove();
+    const newButton = '<div data-test-id="question-skip-button" id="superSkipButton" class="sc-likbZx KLpLW"><button class="sc-jTzLTM gKItAZ sc-jqCOkK gRVFSE sc-bbmXgH fGVldU" type="button"><span class="sc-gZMcBi hyTroz">Super Skip</span><span aria-live="polite" data-test="button-loading-status" hidden="" role="status" class="sc-iwsKbI izSUON">Skip done loading</span></button></div>'
+    document.querySelector(selectors.buttonContainer).innerHTML+=newButton;
+    document.querySelector("#superSkipButton").onclick = fastSkip;
 }
 
 const checkQuestionExist = setInterval(function() {
@@ -53,7 +55,7 @@ const checkQuestionExist = setInterval(function() {
       addButtons();
       const key = hasKeyword();
       if(key){
-          alert("found keyword " +key);
+          alert("found keyword " + key);
           clearInterval(checkQuestionExist);
       }else{
           fastSkip();
