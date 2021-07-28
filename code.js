@@ -64,6 +64,7 @@ const repeatCheckQuestionLoaded = ()=>{
       const key = hasKeyword();
       if(key){
           addButtons();
+          navigator.vibrate(200);
           alert("found keyword - " + key);
       }else{
           skipAndStart();
