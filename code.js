@@ -43,8 +43,9 @@ const hasKeyword = () =>{
 
 const checkQuestionExist = setInterval(function() {
    if (document.querySelector(selectors.questionComponent)) {
-      if(hasKeyword()){
-          alert("found keyword");
+       const key = hasKeyword();
+      if(key){
+          alert("found keyword " +key);
           clearInterval(checkQuestionExist);
       }else{
           fastSkip();
