@@ -21,7 +21,8 @@ const selectors = {
   answerButton: '',
   I_Dont_Have_Subject_Knowledge_Reason: '#root > main > footer > div > div > div.sc-hMqMXs.enPIsE.sc-kIPQKe.cBjqrw > div > div > div.sc-RefOD.QZIDq > div > label:nth-child(5)',
   skipSubmitButton: '#root > main > footer > div > div > div.sc-hMqMXs.enPIsE.sc-kIPQKe.cBjqrw > div > div > div.sc-iQKALj.hQXEod > button',
-  questionComponent: '#question-comp'
+  questionComponent: '#question-comp',
+  exitButton: '#root > main > footer > div > div > div.sc-eKZiaR.kLEhPS > button'
 };
 
 const fastSkip = ()=>{
@@ -41,9 +42,15 @@ const hasKeyword = () =>{
     return null;
 };
 
+const addButtons = ()=>{
+    document.querySelector(selectors.exitButton).class = "sc-jTzLTM gKItAZ sc-jqCOkK gRVFSE sc-bbmXgH fGVldU";
+    document.querySelector(selectors.exitButton).innerText = "SuperSkip";
+}
+
 const checkQuestionExist = setInterval(function() {
    if (document.querySelector(selectors.questionComponent)) {
-       const key = hasKeyword();
+      addButtons();
+      const key = hasKeyword();
       if(key){
           alert("found keyword " +key);
           clearInterval(checkQuestionExist);
