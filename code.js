@@ -32,7 +32,7 @@ const fastSkip = ()=>{
 
 
 const checkQuestionExist = setInterval(function() {
-   if (document.querySelector(selectors.questionComponent).length) {
+   if (document.querySelector(selectors.questionComponent)) {
       alert(alert("Ready"));
       clearInterval(checkExist);
    }
