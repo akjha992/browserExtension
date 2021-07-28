@@ -64,7 +64,13 @@ const repeatCheckQuestionLoaded = ()=>{
       const key = hasKeyword();
       if(key){
           addButtons();
-          navigator.vibrate(200);
+          navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+
+if (navigator.vibrate) {
+	// vibration API supported
+navigator.vibrate(200);
+}
+          
           alert("found keyword - " + key);
       }else{
           skipAndStart();
