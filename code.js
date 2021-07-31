@@ -138,7 +138,7 @@ const start = ()=>{
 }
 
 //Program start, wait for thr first question to load then star the program
-const version = "1.05";
+const version = "1.06";
 waitForQuestion(()=>{
 	printVersion(version);
 	getArguments();
