@@ -40,14 +40,10 @@ const vibrate = ()=>{
 }
 const areWeAnswering = ()=>{
 	const key = "Submit";
-	/*
 	if(document.querySelector(selectors.answerButton).innerText.toLowerCase().indexOf(key.toLowerCase())!==-1){
 	    return key;
 	}
 	return null;
-	*/
-	return document.querySelector(selectors.answerButton).innerText===key;
-	
 };
 const fastSkip = ()=>{
   if(!areWeAnswering()){
@@ -140,7 +136,7 @@ const start = ()=>{
 }
 
 //Program start, wait for thr first question to load then star the program
-const version = "1.10";
+const version = "1.11";
 waitForQuestion(()=>{
 	printVersion(version);
 	getArguments();
