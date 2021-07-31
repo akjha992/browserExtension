@@ -64,7 +64,7 @@ const createNewButton = (buttonId, name, action)=>{
     const btnSelector = "#"+buttonId;
     const btn = document.querySelector(btnSelector);
     if(!btn){
-        const newButton = `<button style="height:50px;width: 100%;text-align:center;position: ABSOLUTE;bottom:-600px;right:0" id=${buttonId} type="button">${name}</button>`
+        const newButton = `<button style="height:50px;width: 100%;text-align:center;position: ABSOLUTE;bottom:-560px;right:0" id=${buttonId} type="button">${name}</button>`
         document.querySelector(selectors.buttonContainer).innerHTML+=newButton;
         document.querySelector(btnSelector).addEventListener("click", action);
     }
