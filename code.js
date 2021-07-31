@@ -39,11 +39,11 @@ const vibrate = ()=>{
 	}
 }
 const areWeAnswering = ()=>{
-	const ansBtnText = document.querySelector(selectors.answerButton).innerText;
-	console.log(ansBtnText);
-	const res = ansBtnText.toString()=='Submit';
-	printVersion(ansBtnText+" , "+res);
-	return res;
+	const key = "Submit";
+	if(document.querySelector(selectors.answerButton).innerText.toLowerCase().indexOf(key.toLowerCase())!==-1){
+	    return key;
+	}
+	return null;
 };
 const fastSkip = ()=>{
   if(!areWeAnswering()){
@@ -136,7 +136,7 @@ const start = ()=>{
 }
 
 //Program start, wait for thr first question to load then star the program
-const version = "1.08";
+const version = "1.09";
 waitForQuestion(()=>{
 	printVersion(version);
 	getArguments();
