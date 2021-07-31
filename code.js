@@ -26,12 +26,23 @@ const selectors = {
   buttonContainer: '#root > header > div'
 };
 
+const vibrate = ()=>{
+	navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+	if (navigator.vibrate) {
+		// vibration API supported
+		navigator.vibrate(200);
+	}
+}
+
 const fastSkip = ()=>{
   document.querySelector(selectors.skipButton).click();
   document.querySelector(selectors.I_Dont_Have_Subject_Knowledge_Reason).click();
   document.querySelector(selectors.skipSubmitButton).click();
 };
-
+const alarm = ()=>{
+	var audio = new Audio('https://www.fesliyanstudios.com/soundeffects-download.php?id=4383');
+	audio.play();
+}
 const hasKeyword = () =>{
     const questionText = document.querySelector(selectors.questionComponent).innerText;
     for (i = 0; i < SUPER_SKIP_MAP.length; i++) {
@@ -43,48 +54,70 @@ const hasKeyword = () =>{
     return null;
 };
 
-const addButtons = ()=>{
-    const exitButton =  document.querySelector(selectors.exitButton);
+const removeExitButton = ()=>{
+const exitButton =  document.querySelector(selectors.exitButton);
     if(exitButton){
        exitButton.remove();    
     }
-    const superSkipButton = document.querySelector("#superSkipButton");
-    if(!superSkipButton){
-        const newButton = '<button style="height:50px;width: 100%;text-align:center;position: ABSOLUTE;bottom:-550px;right:0" id="superSkipButton" type="button">Fast Skip</button>'
+}
+const createNewButton = (buttonId, name, action)=>{
+    const btnSelector = "#"+buttonId;
+    const btn = document.querySelector(btnSelector);
+    if(!btn){
+        const newButton = `<button style="height:50px;width: 100%;text-align:center;position: ABSOLUTE;bottom:-600px;right:0" id=${buttonId} type="button">${name}</button>`
         document.querySelector(selectors.buttonContainer).innerHTML+=newButton;
-        document.querySelector("#superSkipButton").addEventListener("click", skipAndStart);
+        document.querySelector(btnSelector).addEventListener("click", action);
     }
 }
 
-
-let checkQuestionExist;
-const repeatCheckQuestionLoaded = ()=>{
-   if (document.querySelector(selectors.questionComponent)) {
-      clearInterval(checkQuestionExist);
-      const key = hasKeyword();
-      if(key){
-          addButtons();
-          navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
-
-if (navigator.vibrate) {
-	// vibration API supported
-navigator.vibrate(200);
-}
-            var audio = new Audio('https://www.fesliyanstudios.com/soundeffects-download.php?id=4383');
-
-                audio.play();
-          alert("found keyword :- " + key);
-      }else{
-          skipAndStart();
-      }
-   }
+// Keeps checking if the question element has loaded or not, in case it loads then it executes the onload method
+const waitForQuestion = (onLoad)=>{
+	setTimeout(()=>{
+		if (document.querySelector(selectors.questionComponent)) {
+			onLoad();
+		}else{
+			waitForQuestion(onLoad);
+		}
+	}, 1000);
 };
-const skipAndStart = ()=>{
+let args;
+const getArguments = ()=>{
+	args = {
+		autoskip: false
+	};
+	args.autoskip = confirm("AutoSkip?");
+}
+const skipThenStart = ()=>{
+    setTimeout(start, 1000);
     fastSkip();
-    start();
 }
 const start = ()=>{
-    checkQuestionExist = setInterval(repeatCheckQuestionLoaded, 2000);
+    if(args.autoskip){
+	    /*
+	    	Wait for the question to load
+		Scan for required keywords
+		If we find the keyword then alert the user
+		add a button to trigger the start method
+		if not then skip the question and trigger start method again
+	    */
+	    const action = ()=>{
+		const key = hasKeyword();
+		if(key){
+			createNewButton("autoSkipButton", "Auto Skip", skipThenStart);
+			alert("found keyword :- " + key);
+		}else{	
+			skipThenStart();
+		}
+	    }
+	    waitForQuestion(action);
+    }else{
+	    /*
+	    	just add a button to do a fast skip
+	    */
+	    createNewButton("fastSkipButton", "Fast Skip", fastSkip);
+    }
 }
 
+//Program start
+getArguments();
 start();
