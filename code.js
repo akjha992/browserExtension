@@ -39,11 +39,10 @@ const vibrate = ()=>{
 	}
 }
 const areWeAnswering = ()=>{
-	printVersion(document.querySelector(selectors.answerButton).innerText);
-	return (document.querySelector(selectors.answerButton).innerText==="Submit");
+	return document.querySelector(selectors.answerButton).innerText==="Submit"?true:false;
 };
 const fastSkip = ()=>{
-  if(!areWeAnswering()){
+  if(areWeAnswering()===false){
 	document.querySelector(selectors.skipButton).click();
         document.querySelector(selectors.I_Dont_Have_Subject_Knowledge_Reason).click();
         document.querySelector(selectors.skipSubmitButton).click();	  
@@ -133,7 +132,7 @@ const start = ()=>{
 }
 
 //Program start, wait for thr first question to load then star the program
-const version = "1.02";
+const version = "1.03";
 waitForQuestion(()=>{
 	printVersion(version);
 	getArguments();
