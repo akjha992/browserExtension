@@ -40,7 +40,7 @@ const fastSkip = ()=>{
   document.querySelector(selectors.skipSubmitButton).click();
 };
 const alarm = ()=>{
-	var audio = new Audio('https://www.fesliyanstudios.com/soundeffects-download.php?id=4383');
+	var audio = new Audio('https://www.fesliyanstudios.com/soundeffects-download.php?id=5465');
 	audio.play();
 }
 const hasKeyword = () =>{
@@ -104,6 +104,8 @@ const start = ()=>{
 		const key = hasKeyword();
 		if(key){
 			createNewButton("autoSkipButton", "Auto Skip", skipThenStart);
+			vibrate();
+			alarm();
 			alert("found keyword :- " + key);
 		}else{	
 			skipThenStart();
