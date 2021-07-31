@@ -41,8 +41,8 @@ const vibrate = ()=>{
 const areWeAnswering = ()=>{
 	const ansBtnText = document.querySelector(selectors.answerButton).innerText;
 	console.log(ansBtnText);
-	const res = ansBtnText==="Submit";
-	printVersion(ansBtnText+" "+res);
+	const res = ansBtnText.toString()==="Submit";
+	printVersion(ansBtnText+" : "+res);
 	return res;
 };
 const fastSkip = ()=>{
@@ -136,7 +136,7 @@ const start = ()=>{
 }
 
 //Program start, wait for thr first question to load then star the program
-const version = "1.07";
+const version = "1.08";
 waitForQuestion(()=>{
 	printVersion(version);
 	getArguments();
