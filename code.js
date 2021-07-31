@@ -18,7 +18,7 @@ const SUPER_SKIP_MAP = [
 
 const selectors = {
   skipButton: '#root > main > footer > div > div > div:nth-child(2) > button',
-  answerButton: '',
+  answerButton: '#root > main > footer > div > div > div:nth-child(1) > button',
   I_Dont_Have_Subject_Knowledge_Reason: '#root > main > footer > div > div > div.sc-hMqMXs.enPIsE.sc-kIPQKe.cBjqrw > div > div > div.sc-RefOD.QZIDq > div > label:nth-child(5)',
   skipSubmitButton: '#root > main > footer > div > div > div.sc-hMqMXs.enPIsE.sc-kIPQKe.cBjqrw > div > div > div.sc-iQKALj.hQXEod > button',
   questionComponent: '#question-comp',
@@ -33,11 +33,16 @@ const vibrate = ()=>{
 		navigator.vibrate(200);
 	}
 }
-
+const areWeAnswering = ()=>{
+	const answerBtn = document.querySelector(selectors.answerButton);
+	return !(answerBtn && answerBtn.innerText==="Answer");
+};
 const fastSkip = ()=>{
-  document.querySelector(selectors.skipButton).click();
-  document.querySelector(selectors.I_Dont_Have_Subject_Knowledge_Reason).click();
-  document.querySelector(selectors.skipSubmitButton).click();
+  if(!areWeAnswering()){
+	document.querySelector(selectors.skipButton).click();
+        document.querySelector(selectors.I_Dont_Have_Subject_Knowledge_Reason).click();
+        document.querySelector(selectors.skipSubmitButton).click();	  
+  }
 };
 const alarm = ()=>{
 	var audio = new Audio('https://www.fesliyanstudios.com/soundeffects-download.php?id=5465');
@@ -63,7 +68,7 @@ const exitButton =  document.querySelector(selectors.exitButton);
 const createNewButton = (buttonId, name, action)=>{
     const btnSelector = "#"+buttonId;
     const btn = document.querySelector(btnSelector);
-    if(!btn){
+    if(!btn&&!areWeAnswering()){
         const newButton = `<button style="height:50px;width: 100%;text-align:center;position: ABSOLUTE;bottom:-560px;right:0" id=${buttonId} type="button">${name}</button>`
         document.querySelector(selectors.buttonContainer).innerHTML+=newButton;
         document.querySelector(btnSelector).addEventListener("click", action);
@@ -88,8 +93,10 @@ const getArguments = ()=>{
 	args.autoskip = confirm("AutoSkip?");
 }
 const skipThenStart = ()=>{
-    setTimeout(start, 1000);
-    fastSkip();
+    if(!areWeAnswering()){
+	setTimeout(start, 1000);
+    	fastSkip();    
+    }
 }
 const start = ()=>{
     if(args.autoskip){
