@@ -41,8 +41,8 @@ const vibrate = ()=>{
 const areWeAnswering = ()=>{
 	const ansBtnText = document.querySelector(selectors.answerButton).innerText;
 	console.log(ansBtnText);
-	const res = ansBtnText.toString()==="Submit";
-	printVersion(ansBtnText+" : "+res);
+	const res = ansBtnText.toString()=='Submit';
+	printVersion(ansBtnText+" , "+res);
 	return res;
 };
 const fastSkip = ()=>{
