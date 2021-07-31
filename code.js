@@ -42,7 +42,9 @@ const areWeAnswering = ()=>{
 	return document.querySelector(selectors.answerButton).innerText==="Submit"?true:false;
 };
 const fastSkip = ()=>{
-  if(areWeAnswering()===false){
+	const res = areWeAnswering();
+	printVersion(res);
+  if(!res){
 	document.querySelector(selectors.skipButton).click();
         document.querySelector(selectors.I_Dont_Have_Subject_Knowledge_Reason).click();
         document.querySelector(selectors.skipSubmitButton).click();	  
@@ -132,7 +134,7 @@ const start = ()=>{
 }
 
 //Program start, wait for thr first question to load then star the program
-const version = "1.03";
+const version = "1.04";
 waitForQuestion(()=>{
 	printVersion(version);
 	getArguments();
