@@ -17,6 +17,7 @@ const SUPER_SKIP_MAP = [
 ];
 
 const selectors = {
+  versionBox: '#root > header > div > a',
   skipButton: '#root > main > footer > div > div > div:nth-child(2) > button',
   answerButton: '#root > main > footer > div > div > div:nth-child(1) > button',
   I_Dont_Have_Subject_Knowledge_Reason: '#root > main > footer > div > div > div.sc-hMqMXs.enPIsE.sc-kIPQKe.cBjqrw > div > div > div.sc-RefOD.QZIDq > div > label:nth-child(5)',
@@ -25,6 +26,10 @@ const selectors = {
   exitButton: '#root > main > footer > div > div > div.sc-eKZiaR.kLEhPS',
   buttonContainer: '#root > header > div'
 };
+
+const printVersion = (version)=>{
+	document.querySelector(selectors.versionBox).innerText = version;
+}
 
 const vibrate = ()=>{
 	navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
@@ -128,7 +133,9 @@ const start = ()=>{
 }
 
 //Program start, wait for thr first question to load then star the program
+const version = "1.00";
 waitForQuestion(()=>{
+	printVersion(version);
 	getArguments();
 	start();
 });
