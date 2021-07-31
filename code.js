@@ -34,6 +34,7 @@ const vibrate = ()=>{
 	}
 }
 const areWeAnswering = ()=>{
+return false;
 	const answerBtn = document.querySelector(selectors.answerButton);
 	return !(answerBtn && answerBtn.innerText==="Answer");
 };
