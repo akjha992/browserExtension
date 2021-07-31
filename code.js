@@ -19,7 +19,7 @@ const SUPER_SKIP_MAP = [
 const selectors = {
   versionBox: '#root > header > div > a',
   skipButton: '#root > main > footer > div > div > div:nth-child(2) > button',
-  answerButton: '#root > main > footer > div > div > div:nth-child(1) > button',
+  answerButton: '#root > main > footer > div > div > div:nth-child(1)',
   I_Dont_Have_Subject_Knowledge_Reason: '#root > main > footer > div > div > div.sc-hMqMXs.enPIsE.sc-kIPQKe.cBjqrw > div > div > div.sc-RefOD.QZIDq > div > label:nth-child(5)',
   skipSubmitButton: '#root > main > footer > div > div > div.sc-hMqMXs.enPIsE.sc-kIPQKe.cBjqrw > div > div > div.sc-iQKALj.hQXEod > button',
   questionComponent: '#question-comp',
@@ -39,16 +39,14 @@ const vibrate = ()=>{
 	}
 }
 const areWeAnswering = ()=>{
-	if(document.querySelector(selectors.answerButton).innerText=="Submit"){
-		return true;
-	}else{
-		return false;
-	}
+	const ansBtnText = document.querySelector(selectors.answerButton).innerText;
+	console.log(ansBtnText);
+	const res = ansBtnText==="Submit";
+	printVersion(ansBtnText+" "+res);
+	return res;
 };
 const fastSkip = ()=>{
-	const res = areWeAnswering();
-	printVersion(res);
-  if(document.querySelector(selectors.answerButton).innerText!=="Submit"){
+  if(!areWeAnswering()){
 	document.querySelector(selectors.skipButton).click();
         document.querySelector(selectors.I_Dont_Have_Subject_Knowledge_Reason).click();
         document.querySelector(selectors.skipSubmitButton).click();	  
@@ -138,7 +136,7 @@ const start = ()=>{
 }
 
 //Program start, wait for thr first question to load then star the program
-const version = "1.06";
+const version = "1.07";
 waitForQuestion(()=>{
 	printVersion(version);
 	getArguments();
