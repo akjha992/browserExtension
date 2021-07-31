@@ -118,6 +118,8 @@ const start = ()=>{
     }
 }
 
-//Program start
-getArguments();
-start();
+//Program start, wait for thr first question to load then star the program
+waitForQuestion(()=>{
+	getArguments();
+	start();
+});
