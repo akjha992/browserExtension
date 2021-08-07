@@ -52,9 +52,23 @@ const fastSkip = ()=>{
         document.querySelector(selectors.skipSubmitButton).click();	  
   }
 };
-const alarm = ()=>{
+const activateSound = ()=>{
+	//works only if called by user
+	if(!window.canPlaySound){
+		playNotificationSound();
+	}
+}
+const playNotificationSound = (action)=>{
 	var audio = new Audio('https://www.fesliyanstudios.com/soundeffects-download.php?id=5465');
-	audio.play();
+	audio.play().then(function() {
+	  	console.log("Was able to play sound!");
+	  	window.canPlaySound=true;
+		if(action){
+			action();
+		}
+	 }).catch(function(){
+	  	console.log("Can't play sound!");
+	});	
 }
 const hasKeyword = () =>{
     const questionText = document.querySelector(selectors.questionComponent).innerText;
@@ -73,13 +87,22 @@ const exitButton =  document.querySelector(selectors.exitButton);
        exitButton.remove();    
     }
 }
-const createNewButton = (buttonId, name, action)=>{
+const createNewButton = (buttonId, name, action, verticalIndex, removeOnClick)=>{
+    let bottomDistance = -560;
+    if(verticalIndex){
+	    bottomDistance+=verticalIndex*50;
+    }
     const btnSelector = "#"+buttonId;
     const btn = document.querySelector(btnSelector);
     if(!btn&&!areWeAnswering()){
-        const newButton = `<button style="height:50px;width: 100%;text-align:center;position: ABSOLUTE;bottom:-560px;right:0" id=${buttonId} type="button">${name}</button>`
+        const newButton = `<button style="height:50px;width: 100%;text-align:center;position: ABSOLUTE;bottom:${bottomDistance}px;right:0" id=${buttonId} type="button">${name}</button>`
         document.querySelector(selectors.buttonContainer).innerHTML+=newButton;
-        document.querySelector(btnSelector).addEventListener("click", action);
+        document.querySelector(btnSelector).addEventListener("click", ()=>{
+		if(removeOnClick){
+			document.querySelector(btnSelector).remove();
+		}
+		action();
+	});
     }
 }
 
@@ -119,26 +142,32 @@ const start = ()=>{
 		const key = hasKeyword();
 		if(key){
 			createNewButton("autoSkipButton", "Auto Skip", skipThenStart);
-			vibrate();
-			alarm();
-			alert("found keyword :- " + key);
+			//vibrate();
+			playNotificationSound(()=>{
+				alert("found keyword :- " + key);
+			});
 		}else{	
 			skipThenStart();
 		}
 	    }
 	    waitForQuestion(action);
-    }else{
+  }else{
 	    /*
 	    	just add a button to do a fast skip
 	    */
-	    createNewButton("fastSkipButton", "Fast Skip", fastSkip);
+	    waitForQuestion(()=>{
+		    createNewButton("fastSkipButton", "Fast Skip", fastSkip);
+	    });
     }
 }
 
 //Program start, wait for thr first question to load then star the program
-const version = "1.11";
+const version = "1.12";
 waitForQuestion(()=>{
 	printVersion(version);
 	getArguments();
-	start();
+	createNewButton("activateSoundButton", "Sound On", ()=>{
+		activateSound();
+		start();
+	},1, true);
 });
