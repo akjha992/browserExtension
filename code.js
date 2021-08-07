@@ -59,16 +59,21 @@ const activateSound = ()=>{
 	}
 }
 const playNotificationSound = (action)=>{
-	var audio = new Audio('https://www.fesliyanstudios.com/soundeffects-download.php?id=5465');
-	audio.play().then(function() {
-	  	console.log("Was able to play sound!");
-	  	window.canPlaySound=true;
+	if(window.canPlaySound){
+		canPlaySound.play();
 		if(action){
 			action();
 		}
-	 }).catch(function(){
-	  	console.log("Can't play sound!");
-	});	
+	}else{
+		const audio = new Audio('https://www.fesliyanstudios.com/soundeffects-download.php?id=5465');
+		audio.play().then(function() {
+			console.log("Was able to play sound!");
+			window.canPlaySound=audio;
+			playNotificationSound(action);
+		 }).catch(function(){
+			console.log("Can't play sound!");
+		});	
+	}
 }
 const hasKeyword = () =>{
     const questionText = document.querySelector(selectors.questionComponent).innerText;
