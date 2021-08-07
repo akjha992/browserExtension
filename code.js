@@ -60,6 +60,7 @@ const activateSound = ()=>{
 }
 const playNotificationSound = (action)=>{
 	if(window.canPlaySound){
+		canPlaySound.currentTime = 0;
 		canPlaySound.play();
 		if(action){
 			action();
