@@ -61,10 +61,11 @@ const activateSound = ()=>{
 const playNotificationSound = (action)=>{
 	if(window.canPlaySound){
 		canPlaySound.currentTime = 0;
-		canPlaySound.play();
-		if(action){
-			action();
-		}
+		canPlaySound.play().then(()=>{
+			if(action){
+				action();
+			}
+		});
 	}else{
 		const audio = new Audio('https://www.fesliyanstudios.com/soundeffects-download.php?id=5465');
 		audio.play().then(function() {
