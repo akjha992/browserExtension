@@ -19,11 +19,11 @@ const SUPER_SKIP_MAP = [
 const selectors = {
   versionBox: '#root > header > div > a',
   skipButton: '#root > main > footer > div > div > div:nth-child(2) > button',
-  answerButton: '#root > main > footer > div > div > div:nth-child(1)',
-  I_Dont_Have_Subject_Knowledge_Reason: '#root > main > footer > div > div > div.sc-hMqMXs.enPIsE.sc-kIPQKe.cBjqrw > div > div > div.sc-RefOD.QZIDq > div > label:nth-child(5)',
-  skipSubmitButton: '#root > main > footer > div > div > div.sc-hMqMXs.enPIsE.sc-kIPQKe.cBjqrw > div > div > div.sc-iQKALj.hQXEod > button',
+  answerButton: '#root > main > footer > div > div > div:nth-child(1) > button',
+  I_Dont_Have_Subject_Knowledge_Reason: '#skip-modal > div > div.sc-1ia47o9-3.gLqDAV > div > div:nth-child(5) > label',
+  skipSubmitButton: '#skip-modal > div > div.sc-1ia47o9-8.ivVfpa > div > button',
   questionComponent: '#question-comp',
-  exitButton: '#root > main > footer > div > div > div.sc-eKZiaR.kLEhPS',
+  exitButton: '#root > main > footer > div > div > div:nth-child(3) > button',
   buttonContainer: '#root > header > div'
 };
 
