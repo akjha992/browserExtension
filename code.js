@@ -24,7 +24,15 @@ const selectors = {
   skipSubmitButton: '#skip-modal > div > div.sc-1ia47o9-8.ivVfpa > div > button',
   questionComponent: '#question-comp',
   exitButton: '#root > main > footer > div > div > div:nth-child(3) > button',
-  buttonContainer: '#root > header > div'
+  buttonContainer: '#root > header > div',
+  timerDiv: '#root > main > div > div.lmxvvx-1.dLqNmn > div > div.sc-iomxrj.jFMalr > div > div > div.sc-exkUMo.dZBdXC > div',
+  timerMinuteSpan: '#root > main > div > div.lmxvvx-1.dLqNmn > div > div.sc-iomxrj.jFMalr > div > div > div.sc-exkUMo.dZBdXC > div > span:nth-child(3)'
+};
+
+const config = {
+	TimerCheckInterval: 1, //seconds
+	TimerAlertThreshold: 9, // Make timer red if it goes below or equal to this value in minutes
+	AutoAnswerQuestionTime: 1, // Click on Answer button if timer goes below or equal to this value in minutes
 };
 
 const printVersion = (version)=>{
@@ -168,7 +176,22 @@ const start = ()=>{
     }
 }
 
-//Program start, wait for thr first question to load then star the program
+// Check to not miss a question we might be solving
+const DontMissThisQuestion = ()=>{
+	const checkTimer = setInterval(()=>{
+		if(!areWeAnswering()){
+			const timerMinuteValue = parseInt(document.querySelector(selectors.timerMinuteSpan).innerText);
+			if(timerMinuteValue<=config.AutoAnswerQuestionTime){
+				document.querySelector(selectors.answerButton).click();
+			}else if(timerMinuteValue<=config.TimerAlertThreshold){
+				document.querySelector(selectors.timerDiv).style.color='red';
+			}
+		}
+		
+	}, config.TimerCheckInterval*1000);
+};
+DontMissThisQuestion();
+//Program start, wait for thr first question to load then start the program
 const version = "1.12";
 waitForQuestion(()=>{
 	printVersion(version);
