@@ -31,7 +31,7 @@ const selectors = {
 
 const config = {
 	TimerCheckInterval: 1, //seconds
-	TimerAlertThreshold: 9, // Make timer red if it goes below or equal to this value in minutes
+	TimerAlertThreshold: 5, // Make timer red if it goes below or equal to this value in minutes
 	AutoAnswerQuestionTime: 1, // Click on Answer button if timer goes below or equal to this value in minutes
 };
 
