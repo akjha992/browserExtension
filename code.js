@@ -159,7 +159,8 @@ const start = ()=>{
 			createNewButton("autoSkipButton", "Auto Skip", skipThenStart);
 			//vibrate();
 			playNotificationSound(()=>{
-				alert("found keyword :- " + key);
+				printVersion(key);
+				//alert("found keyword :- " + key);
 			});
 		}else{	
 			skipThenStart();
@@ -194,7 +195,7 @@ DontMissThisQuestion();
 //Program start, wait for thr first question to load then start the program
 const version = "1.12";
 waitForQuestion(()=>{
-	printVersion(version);
+	//printVersion(version);
 	getArguments();
 	createNewButton("activateSoundButton", "Sound On", ()=>{
 		activateSound();
