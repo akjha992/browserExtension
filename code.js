@@ -23,16 +23,19 @@ const selectors = {
   I_Dont_Have_Subject_Knowledge_Reason: '#skip-modal > div > div.sc-1ia47o9-3.gLqDAV > div > div:nth-child(5) > label',
   skipSubmitButton: '#skip-modal > div > div.sc-1ia47o9-8.ivVfpa > div > button',
   questionComponent: '#question-comp',
+  questionImages: '#question-comp > div > p img',
   exitButton: '#root > main > footer > div > div > div:nth-child(3) > button',
   buttonContainer: '#root > header > div',
   timerDiv: '#root > main > div > div.lmxvvx-1.dLqNmn > div > div.sc-iomxrj.jFMalr > div > div > div.sc-exkUMo.dZBdXC > div',
-  timerMinuteSpan: '#root > main > div > div.lmxvvx-1.dLqNmn > div > div.sc-iomxrj.jFMalr > div > div > div.sc-exkUMo.dZBdXC > div > span:nth-child(3)'
+  timerMinuteSpan: '#root > main > div > div.lmxvvx-1.dLqNmn > div > div.sc-iomxrj.jFMalr > div > div > div.sc-exkUMo.dZBdXC > div > span:nth-child(3)',
+  answerBoxIframe: '#cke_1_contents > iframe'
 };
 
 const config = {
 	TimerCheckInterval: 1, //seconds
 	TimerAlertThreshold: 5, // Make timer red if it goes below or equal to this value in minutes
 	AutoAnswerQuestionTime: 1, // Click on Answer button if timer goes below or equal to this value in minutes
+	defaultAnswerFormat: "<p>Program Code Screenshot</p><p>Program Console&nbsp;Input/Output Screenshot</p><p>Program Code to Copy</p>" // This is the auto fill we want while answering
 };
 
 const printVersion = (version)=>{
@@ -48,7 +51,7 @@ const vibrate = ()=>{
 }
 const areWeAnswering = ()=>{
 	const key = "Submit";
-	if(document.querySelector(selectors.answerButton).innerText.toLowerCase().indexOf(key.toLowerCase())!==-1){
+	if(document.querySelector(selectors.answerButton)&&document.querySelector(selectors.answerButton).innerText.toLowerCase().indexOf(key.toLowerCase())!==-1){
 	    return key;
 	}
 	return null;
@@ -86,7 +89,13 @@ const playNotificationSound = (action)=>{
 	}
 }
 const hasKeyword = () =>{
-    const questionText = document.querySelector(selectors.questionComponent).innerText;
+    let questionText = document.querySelector(selectors.questionComponent).innerText;
+    const questionImageItems = document.querySelectorAll(selectors.questionImages);
+    for(i = 0; i < questionImageItems.length; i++){
+	    questionText += " " + questionImageItems[i].alt;
+    }
+    // console.log(questionText);
+	
     for (i = 0; i < SUPER_SKIP_MAP.length; i++) {
             const keyword =  SUPER_SKIP_MAP[i];
             if(questionText.toLowerCase().indexOf(keyword.toLowerCase())!==-1){
@@ -144,6 +153,16 @@ const skipThenStart = ()=>{
     	fastSkip();    
     }
 }
+
+const autoFillAnswer = () => {
+    if(areWeAnswering()){
+	const text = document.querySelector(selectors.answerBoxIframe);
+    	if(text&&text.contentWindow.document.body.innerHTML==="<p><br></p>"){
+		document.querySelector(selectors.answerBoxIframe).contentWindow.document.body.innerHTML = config.defaultAnswerFormat;
+	}
+    }
+}
+
 const start = ()=>{
     if(args.autoskip){
 	    /*
@@ -180,13 +199,15 @@ const start = ()=>{
 // Check to not miss a question we might be solving
 const DontMissThisQuestion = ()=>{
 	const checkTimer = setInterval(()=>{
-		if(!areWeAnswering()){
+		if(!areWeAnswering()&&document.querySelector(selectors.timerMinuteSpan)){
 			const timerMinuteValue = parseInt(document.querySelector(selectors.timerMinuteSpan).innerText);
 			if(timerMinuteValue<=config.AutoAnswerQuestionTime){
 				document.querySelector(selectors.answerButton).click();
 			}else if(timerMinuteValue<=config.TimerAlertThreshold){
 				document.querySelector(selectors.timerDiv).style.color='red';
 			}
+		}else{
+			autoFillAnswer();
 		}
 		
 	}, config.TimerCheckInterval*1000);
