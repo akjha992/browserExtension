@@ -28,14 +28,15 @@ const selectors = {
   buttonContainer: '#root > header > div',
   timerDiv: '#root > main > div > div.lmxvvx-1.dLqNmn > div > div.sc-iomxrj.jFMalr > div > div > div.sc-exkUMo.dZBdXC > div',
   timerMinuteSpan: '#root > main > div > div.lmxvvx-1.dLqNmn > div > div.sc-iomxrj.jFMalr > div > div > div.sc-exkUMo.dZBdXC > div > span:nth-child(3)',
-  answerBoxIframe: '#cke_1_contents > iframe'
+  answerBoxIframe: 'iframe',
+  ourAutoSkipButton: '#autoSkipButton'
 };
 
 const config = {
 	TimerCheckInterval: 1, //seconds
 	TimerAlertThreshold: 5, // Make timer red if it goes below or equal to this value in minutes
 	AutoAnswerQuestionTime: 1, // Click on Answer button if timer goes below or equal to this value in minutes
-	defaultAnswerFormat: "<p>Program Code Screenshot</p><p>Program Console&nbsp;Input/Output Screenshot</p><p>Program Code to Copy</p>" // This is the auto fill we want while answering
+	defaultAnswerFormat: "<p><strong>Program Code Screenshot<br></strong><br></p><p><strong>Program Console&nbsp;Input/Output Screenshot<br></strong><br></p><p><strong>Program Code to Copy<br></strong><br></p>" // This is the auto fill we want while answering
 };
 
 const printVersion = (version)=>{
@@ -175,7 +176,6 @@ const start = ()=>{
 	    const action = ()=>{
 		const key = hasKeyword();
 		if(key){
-			createNewButton("autoSkipButton", "Auto Skip", skipThenStart);
 			//vibrate();
 			playNotificationSound(()=>{
 				printVersion(key);
@@ -197,7 +197,7 @@ const start = ()=>{
 }
 
 // Check to not miss a question we might be solving
-const DontMissThisQuestion = ()=>{
+const DontMissThisQuestion = (interval)=>{
 	const checkTimer = setInterval(()=>{
 		if(!areWeAnswering()&&document.querySelector(selectors.timerMinuteSpan)){
 			const timerMinuteValue = parseInt(document.querySelector(selectors.timerMinuteSpan).innerText);
@@ -206,13 +206,37 @@ const DontMissThisQuestion = ()=>{
 			}else if(timerMinuteValue<=config.TimerAlertThreshold){
 				document.querySelector(selectors.timerDiv).style.color='red';
 			}
-		}else{
+		}
+		
+	}, interval*1000);
+};
+
+// Add custom text in the output
+const AutoFillAnswerFormat = (interval)=>{
+	const checkTimer = setInterval(()=>{
+		if(areWeAnswering()){
 			autoFillAnswer();
 		}
 		
-	}, config.TimerCheckInterval*1000);
+	}, interval*1000);
 };
-DontMissThisQuestion();
+
+// Remove AutoSkip button while answering and bring back if not
+const RemoveOrAddAutoSkipButton = (interval)=>{
+	const checkTimer = setInterval(()=>{
+		if(areWeAnswering()&&document.querySelector(selectors.ourAutoSkipButton)){
+			document.querySelector(selectors.ourAutoSkipButton).remove();
+		}else{
+			createNewButton("autoSkipButton", "Auto Skip", skipThenStart);
+		}
+		
+	}, interval*1000);
+};
+
+DontMissThisQuestion(config.TimerCheckInterval);
+AutoFillAnswerFormat(config.TimerCheckInterval);
+RemoveOrAddAutoSkipButton(config.TimerCheckInterval*3);
+
 //Program start, wait for thr first question to load then start the program
 const version = "1.12";
 waitForQuestion(()=>{
