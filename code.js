@@ -72,6 +72,8 @@ const activateSound = ()=>{
 }
 const playNotificationSound = (action)=>{
 	if(window.canPlaySound){
+		const soundButton = document.querySelector('activateSoundButton');
+		if(soundButton)soundButton.remove();
 		canPlaySound.currentTime = 0;
 		canPlaySound.play().then(()=>{
 			if(action){
@@ -233,9 +235,7 @@ const RemoveOrAddAutoSkipButton = (interval)=>{
 	}, interval*1000);
 };
 
-DontMissThisQuestion(config.TimerCheckInterval);
-AutoFillAnswerFormat(config.TimerCheckInterval);
-RemoveOrAddAutoSkipButton(config.TimerCheckInterval*3);
+
 
 //Program start, wait for thr first question to load then start the program
 const version = "1.12";
@@ -244,6 +244,9 @@ waitForQuestion(()=>{
 	getArguments();
 	createNewButton("activateSoundButton", "Sound On", ()=>{
 		activateSound();
+		DontMissThisQuestion(config.TimerCheckInterval);
+		AutoFillAnswerFormat(config.TimerCheckInterval);
+		RemoveOrAddAutoSkipButton(config.TimerCheckInterval*3);
 		start();
 	},1, true);
 });
